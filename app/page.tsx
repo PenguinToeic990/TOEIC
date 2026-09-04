@@ -63,7 +63,7 @@ function AbilityPanel({ title, zh, color, skills, values, onChange }: { title: s
     {skills.map((skill, i) => <div className="ability-row" key={skill.en}>
       <div className="ability-copy"><p>{skill.en}</p><span>{skill.zh}</span></div>
       <div className="ability-part"><strong>{skill.part}</strong><span>{skill.approx}</span></div>
-      <div className="percent-control"><label><span>YOUR PERCENTAGE · 你的百分比</span><input aria-label={`${skill.zh}百分比`} type="number" min="0" max="100" value={values[i]} onChange={(e) => onChange(i, clamp(Number(e.target.value), 0, 100))}/><span className="percent-steppers"><button type="button" aria-label={`${skill.zh}增加 1%`} disabled={values[i] >= 100} onClick={() => onChange(i, clamp(values[i] + 1, 0, 100))}>▲</button><button type="button" aria-label={`${skill.zh}減少 1%`} disabled={values[i] <= 0} onClick={() => onChange(i, clamp(values[i] - 1, 0, 100))}>▼</button></span><em>%</em></label>
+      <div className="percent-control"><label><input aria-label={`${skill.zh}百分比`} type="number" min="0" max="100" value={values[i]} onChange={(e) => onChange(i, clamp(Number(e.target.value), 0, 100))}/><span className="percent-steppers"><button type="button" aria-label={`${skill.zh}增加 1%`} disabled={values[i] >= 100} onClick={() => onChange(i, clamp(values[i] + 1, 0, 100))}>▲</button><button type="button" aria-label={`${skill.zh}減少 1%`} disabled={values[i] <= 0} onClick={() => onChange(i, clamp(values[i] - 1, 0, 100))}>▼</button></span><em>%</em></label>
         <div className="percent-track"><i style={{width: `${values[i]}%`}} /></div><div className="ends"><span>0%</span><span>100%</span></div>
       </div>
     </div>)}
