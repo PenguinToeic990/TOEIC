@@ -46,10 +46,18 @@ function DifficultySelect({ label, value, onChange }: { label: string; value: Di
 }
 
 function ScoreRow({ label, zh, score, onChange, tone }: { label: string; zh: string; score: number; onChange: (v: number) => void; tone: string }) {
+  const [draft, setDraft] = useState(String(score));
+  useEffect(() => { setDraft(String(score)); }, [score]);
+  const commitScore = () => {
+    const parsed = Number(draft);
+    const normalized = Number.isFinite(parsed) && draft.trim() !== "" ? clamp(Math.round(parsed / 5) * 5, 5, 495) : score;
+    setDraft(String(normalized));
+    onChange(normalized);
+  };
   const pos = ((score - 5) / 490) * 100;
   return <section className="score-row">
     <div className="score-heading"><div className={`score-label ${tone}`}>{label}</div>
-      <label className="score-input"><span>YOUR SCORE<small>你的分數</small></span><input aria-label={`${zh}分數`} type="number" min="5" max="495" step="5" value={score} onChange={(e) => onChange(clamp(Number(e.target.value), 5, 495))} /><span className="score-steppers"><button type="button" aria-label={`${zh}增加 5 分`} disabled={score >= 495} onClick={() => onChange(clamp(score + 5, 5, 495))}>▲</button><button type="button" aria-label={`${zh}減少 5 分`} disabled={score <= 5} onClick={() => onChange(clamp(score - 5, 5, 495))}>▼</button></span></label>
+      <label className="score-input"><span>YOUR SCORE<small>你的分數</small></span><input aria-label={`${zh}分數`} type="number" min="5" max="495" step="5" value={draft} onChange={(e) => setDraft(e.target.value)} onBlur={commitScore} onKeyDown={(e) => { if (e.key === "Enter") e.currentTarget.blur(); }} /><span className="score-steppers"><button type="button" aria-label={`${zh}增加 5 分`} disabled={score >= 495} onClick={() => onChange(clamp(score + 5, 5, 495))}>▲</button><button type="button" aria-label={`${zh}減少 5 分`} disabled={score <= 5} onClick={() => onChange(clamp(score - 5, 5, 495))}>▼</button></span></label>
     </div>
     <div className="score-control">
       <div className="track-wrap"><span>5</span><div className="score-track"><i style={{ width: `${pos}%` }} /><b style={{ left: `${pos}%` }}>{score}</b></div><span>495</span></div>
