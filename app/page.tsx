@@ -33,9 +33,24 @@ const clamp = (n: number, min: number, max: number) => Math.min(max, Math.max(mi
 const difficultyOffset = (difficulty: Difficulty) => difficultyOptions.find(option => option.value === difficulty)?.offset ?? 0;
 const estimateListening = (score: number, difficulty: Difficulty) => Number(clamp((score - 5 * 5 + difficultyOffset(difficulty) * 5) / 5, 0, 100).toFixed(1));
 const estimateReading = (score: number, difficulty: Difficulty) => Number(clamp((score - 0 * 5 + difficultyOffset(difficulty) * 5) / 5, 0, 100).toFixed(1));
-function distributeByPart(total: number, maxima: number[]) {
+function distributeByPart(total: number, maxima: number[], performance: number[]) {
   const maximum = maxima.reduce((a, b) => a + b, 0), target = Math.round(clamp(total, 0, maximum));
-  const exact = maxima.map(max => target * max / maximum), values = exact.map(Math.floor);
+  const scores = performance.map(value => clamp(value, 0, 100));
+  const weights = maxima.map((max, i) => max * scores[i]);
+  if (weights.every(value => value === 0)) maxima.forEach((max, i) => { weights[i] = max; });
+  const exact = maxima.map(() => 0);
+  let unassigned = target, active = maxima.map((_, i) => i);
+  while (active.length && unassigned > 0) {
+    const weightTotal = active.reduce((sum, i) => sum + weights[i], 0);
+    const capped = active.filter(i => unassigned * (weightTotal ? weights[i] / weightTotal : 1 / active.length) >= maxima[i]);
+    if (!capped.length) {
+      active.forEach(i => { exact[i] = unassigned * (weightTotal ? weights[i] / weightTotal : 1 / active.length); });
+      break;
+    }
+    capped.forEach(i => { exact[i] = maxima[i]; unassigned -= maxima[i]; });
+    active = active.filter(i => !capped.includes(i));
+  }
+  const values = exact.map(Math.floor);
   let remaining = target - values.reduce((a, b) => a + b, 0);
   exact.map((value, i) => ({ i, fraction: value - Math.floor(value) })).sort((a, b) => b.fraction - a.fraction).forEach(({ i }) => { if (remaining > 0 && values[i] < maxima[i]) { values[i]++; remaining--; } });
   return values;
@@ -86,8 +101,8 @@ export default function Home() {
   const [chineseName, setChineseName] = useState('假企鵝'), [englishName, setEnglishName] = useState('FAKE PEN-GUIN');
   const pageRef = useRef<HTMLElement>(null);
   const result = useMemo(() => ({ listening: estimateListening(listeningScore, listeningDifficulty), reading: estimateReading(readingScore, readingDifficulty) }), [listeningScore, readingScore, listeningDifficulty, readingDifficulty]);
-  const listeningParts = useMemo(() => distributeByPart(result.listening, [6, 25, 39, 30]), [result.listening]);
-  const readingParts = useMemo(() => distributeByPart(result.reading, [30, 16, 54]), [result.reading]);
+  const listeningParts = useMemo(() => distributeByPart(result.listening, [6, 25, 39, 30], [listening[2], (listening[0] + listening[2] + listening[4]) / 3, (listening[1] + listening[3] + listening[4]) / 3, (listening[1] + listening[3] + listening[4]) / 3]), [result.listening, listening]);
+  const readingParts = useMemo(() => distributeByPart(result.reading, [30, 16, 54], [(reading[3] + reading[4]) / 2, (reading[0] + reading[1] + reading[3] + reading[4]) / 4, (reading[0] + reading[1] + reading[2] + reading[3]) / 4]), [result.reading, reading]);
   const update = (setter: React.Dispatch<React.SetStateAction<number[]>>) => (index: number, value: number) => setter(old => old.map((v, i) => i === index ? value : v));
   const generatePdf = async () => {
     if (isGenerating || !pageRef.current) return;
