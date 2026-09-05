@@ -255,3 +255,10 @@ body {
 .score-track { background:linear-gradient(to right, #efd5ad 0%, #c4bcae 28%, #77746d 58%, #000000 100%); }
 .score-track i { background:transparent; }
 
+/* Keep the report compact: one quarter of the previous section spacing. */
+.intro { margin-bottom:.5rem; padding-bottom:.5rem; }
+.results { margin-top:.625rem; }
+.ability-grid { margin-top:.625rem; }
+.part-estimate { margin-top:.5rem; }
+.generate-bar { margin-top:.5rem; }
+
