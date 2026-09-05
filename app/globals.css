@@ -161,13 +161,15 @@ body {
   .score-input .score-steppers { @apply flex h-12 w-9 flex-col border-4 border-l-0 border-[#171715] bg-[#fffdf8]; }
   .score-steppers button { @apply flex flex-1 cursor-pointer items-center justify-center border-0 bg-transparent text-[15px] leading-none hover:bg-[#efd5ad] disabled:cursor-not-allowed disabled:opacity-30; }
   .score-steppers button+button { @apply border-t-2 border-[#171715]; }
-  .score-control { @apply relative min-w-0 px-2; }
+  .score-control { @apply relative min-w-0 px-2 pt-20; }
   .track-wrap { @apply flex items-center gap-3 font-mono text-sm; }
   .score-track { @apply relative h-3 flex-1 bg-[#d7d5ce]; } .score-track i { @apply block h-full bg-[#171715]; }
-  .score-track b { @apply absolute -top-11 -translate-x-1/2 rounded-full bg-[#171715] px-3 py-1 font-mono text-lg text-white after:absolute after:left-1/2 after:top-full after:-translate-x-1/2 after:border-8 after:border-transparent after:border-t-[#171715]; }
+  .score-track b { @apply absolute -translate-x-1/2 rounded-full border-[5px] border-[#171715] bg-[#efd5ad] font-mono text-3xl text-[#171715]; width: 76px; height: 76px; top: -86px; display: flex; align-items: center; justify-content: center; }
+  .score-track b::after { content: ''; position: absolute; left: 50%; top: 100%; transform: translateX(-50%); border: 9px solid transparent; border-top-color: #171715; }
+
   .total-score { @apply flex flex-col items-center justify-center border-t-2 border-[#171715] bg-[#efd5ad] p-8 lg:border-l-2 lg:border-t-0; }
   .total-score span { @apply bg-[#e77c24] px-6 py-4 text-center font-mono text-2xl font-black leading-none; } .total-score small { @apply mt-2 block font-sans text-base; }
-  .total-score b { @apply mt-7 flex h-40 w-40 items-center justify-center rounded-full border-[6px] border-[#171715] bg-[#fffdf8] font-mono text-5xl; } .total-score em { @apply mt-2 font-mono not-italic; }
+  .total-score b { @apply mt-7 flex h-40 w-40 items-center justify-center rounded-full border-[6px] border-[#171715] bg-[#efd5ad] font-mono text-5xl; } .total-score em { @apply mt-2 font-mono not-italic; }
   .results { @apply mt-10 grid overflow-hidden border-2 border-[#171715] bg-[#171715] text-white md:grid-cols-[1.2fr_1fr_1fr_1fr]; }
   .result-title,.result-stat { @apply flex min-h-32 flex-col justify-center border-b border-white/30 p-5 md:border-b-0 md:border-r; }
   .result-title span,.result-stat span { @apply font-mono text-xs font-bold tracking-[.1em] text-[#ef9b4b]; } .result-title strong { @apply mt-1 text-xl; }
