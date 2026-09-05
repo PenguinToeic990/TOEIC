@@ -215,3 +215,26 @@ body {
   .ability-panel>header { grid-template-columns: 1fr; }
   .ability-panel>header p { border-left: 0; border-top: 1px solid #171715; padding-block: .75rem; }
 }
+
+/* Score-report header: illustration, sample identity, score card. */
+.report-header { display:grid; grid-template-columns:150px 260px minmax(0,1fr); gap:20px; padding:20px; border:2px solid #c5843e; background:#efd5ad; align-items:center; }
+.candidate-photo svg { display:block; width:100%; max-width:180px; margin:auto; }
+.candidate-photo small { display:block; text-align:center; margin-top:8px; color:#68655f; }
+.candidate-info { min-width:0; }
+.candidate-field { display:flex; flex-direction:column; padding:8px 0; border-bottom:1px solid #a79475; }
+.candidate-field strong { font-size:20px; font-weight:500; line-height:1.3; overflow-wrap:anywhere; }
+.candidate-field small { font-size:11px; margin-top:4px; }
+.candidate-pair { display:grid; grid-template-columns:1fr 1fr; gap:10px; }
+.candidate-pair strong { font-size:16px; }
+.sample-note { display:block; font-size:11px; color:#68655f; margin-top:8px; }
+.report-header .score-card { grid-template-columns:minmax(0,1fr) 160px; box-shadow:none; }
+.report-header .score-row { padding:16px 24px; }
+.score-heading .score-label { width:148px; flex-shrink:0; box-sizing:border-box; }
+.report-header .total-score { padding:14px; border-left:2px solid #171715; border-top:0; }
+.report-header .total-score>span { padding:12px; line-height:1.1; }
+.report-header .total-score b { width:124px; height:124px; font-size:40px; }
+@media(max-width:1199px) { .report-header { grid-template-columns:150px minmax(0,1fr); } .report-header .score-card { grid-column:1/-1; } }
+@media(max-width:639px) { .report-header { grid-template-columns:90px minmax(0,1fr); padding:12px; gap:12px; } .candidate-field strong { font-size:16px; } .candidate-pair { grid-template-columns:1fr; gap:0; } .report-header .score-card { grid-template-columns:minmax(0,1fr); } .report-header .total-score { border-left:0; border-top:2px solid #171715; } .report-header .score-row { padding:12px; } .score-heading .score-label { width:128px; } .score-input input { width:68px; } }
+.pdf-exporting .report-header { grid-template-columns:105px minmax(0,1fr); padding:12px; gap:14px; }
+.pdf-exporting .report-header .score-card { grid-column:1/-1; grid-template-columns:minmax(0,1fr) 160px; }
+.pdf-exporting .report-header .total-score { border-left:2px solid #171715; border-top:0; }
