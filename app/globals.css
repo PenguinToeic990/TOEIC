@@ -218,7 +218,7 @@ body {
 
 /* Score-report header: illustration, sample identity, score card. */
 .report-header { display:grid; grid-template-columns:150px 260px minmax(0,1fr); gap:20px; padding:20px; border:2px solid #c5843e; background:#efd5ad; align-items:center; }
-.candidate-photo img { display:block; width:100%; max-width:180px; aspect-ratio:4/5; object-fit:cover; object-position:center; margin:auto; filter:contrast(1.04) saturate(.9); }
+.candidate-photo img { display:block; width:100%; max-width:180px; aspect-ratio:1091/1280; object-fit:contain; object-position:center; background:#e7eef0; margin:auto; filter:contrast(1.04) saturate(.9); }
 .candidate-photo small { display:block; text-align:center; margin-top:8px; color:#68655f; }
 .candidate-info { min-width:0; }
 .candidate-field { display:flex; flex-direction:column; padding:8px 0; border-bottom:1px solid #a79475; }
